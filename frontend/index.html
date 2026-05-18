@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador de Grado Militar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8892b0;
+            margin-bottom: 2rem;
+        }
+
+        .security-info {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .security-info span {
+            color: #00d9ff;
+            font-weight: 600;
+        }
+
+        .drop-zone {
+            border: 2px dashed #3d5a80;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(61, 90, 128, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #00d9ff;
+            background: rgba(0, 217, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .drop-zone-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .drop-zone-text {
+            font-size: 1.2rem;
+            color: #ccd6f6;
+        }
+
+        .drop-zone-subtext {
+            color: #8892b0;
+            margin-top: 0.5rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-info-icon {
+            font-size: 2rem;
+        }
+
+        .file-info-details {
+            flex: 1;
+        }
+
+        .file-info-name {
+            font-weight: 600;
+            color: #00ff88;
+        }
+
+        .file-info-size {
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+
+        .file-info-remove {
+            background: none;
+            border: none;
+            color: #ff4757;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .file-info-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .password-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .password-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccd6f6;
+            font-weight: 500;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #3d5a80;
+            border-radius: 8px;
+            background: rgba(61, 90, 128, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 4px;
+            background: #2d3748;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            color: #8892b0;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-encrypt {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+        }
+
+        .btn-encrypt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-decrypt {
+            background: linear-gradient(135deg, #ff6b6b, #ffa502);
+            color: #1a1a2e;
+        }
+
+        .btn-decrypt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #2d3748;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            width: 0;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #8892b0;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .result.success {
+            display: block;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+
+        .result.error {
+            display: block;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            color: #ff4757;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .drop-zone {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encriptador de Grado Militar</h1>
+        <p class="subtitle">XChaCha20-Poly1305 + Argon2id + Zstandard</p>
+
+        <div class="security-info">
+            <span>Seguridad militar:</span> Cifrado Authenticated Encryption con clave derivada de contraseña usando Argon2id (256MB memoria, 3 iteraciones). Compresión Zstandard nivel 19.
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-zone-icon">📁</div>
+            <div class="drop-zone-text">Arrastra tu archivo aquí</div>
+            <div class="drop-zone-subtext">o haz clic para seleccionar</div>
+            <input type="file" class="file-input" id="fileInput">
+        </div>
+
+        <div class="file-info" id="fileInfo" style="display: none;">
+            <div class="file-info-icon">📄</div>
+            <div class="file-info-details">
+                <div class="file-info-name" id="fileName"></div>
+                <div class="file-info-size" id="fileSize"></div>
+            </div>
+            <button class="file-info-remove" id="removeFile">×</button>
+        </div>
+
+        <div class="password-section">
+            <label class="password-label">Contraseña (mínimo 8 caracteres)</label>
+            <input type="password" class="password-input" id="password" placeholder="Ingresa una contraseña segura">
+            <div class="password-strength">
+                <div class="password-strength-bar" id="strengthBar"></div>
+            </div>
+            <div class="password-strength-text" id="strengthText"></div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-encrypt" id="encryptBtn" disabled>
+                <span>🔒</span> Encriptar
+            </button>
+            <button class="btn btn-decrypt" id="decryptBtn" disabled>
+                <span>🔓</span> Desencriptar
+            </button>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Procesando...</div>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : 'https://us-central1-encripta2-5bde4.cloudfunctions.net';
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFileBtn = document.getElementById('removeFile');
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthText = document.getElementById('strengthText');
+        const encryptBtn = document.getElementById('encryptBtn');
+        const decryptBtn = document.getElementById('decryptBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const result = document.getElementById('result');
+
+        let selectedFile = null;
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.style.display = 'flex';
+            updateButtons();
+        }
+
+        removeFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInfo.style.display = 'none';
+            fileInput.value = '';
+            updateButtons();
+        });
+
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            const strength = calculatePasswordStrength(password);
+            updatePasswordStrength(strength);
+            updateButtons();
+        });
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function calculatePasswordStrength(password) {
+            if (!password) return 0;
+            let strength = 0;
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 15;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 20;
+            if (/\d/.test(password)) strength += 20;
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 20;
+            return Math.min(strength, 100);
+        }
+
+        function updatePasswordStrength(strength) {
+            strengthBar.style.width = strength + '%';
+            if (strength < 30) {
+                strengthBar.style.background = '#ff4757';
+                strengthText.textContent = 'Débil';
+            } else if (strength < 60) {
+                strengthBar.style.background = '#ffa502';
+                strengthText.textContent = 'Regular';
+            } else if (strength < 80) {
+                strengthBar.style.background = '#00d9ff';
+                strengthText.textContent = 'Buena';
+            } else {
+                strengthBar.style.background = '#00ff88';
+                strengthText.textContent = 'Excelente';
+            }
+        }
+
+        function updateButtons() {
+            const hasFile = selectedFile !== null;
+            const hasPassword = passwordInput.value.length >= 8;
+            encryptBtn.disabled = !(hasFile && hasPassword);
+            decryptBtn.disabled = !(hasFile && hasPassword);
+        }
+
+        function showProgress(show, text = 'Procesando...') {
+            if (show) {
+                progressContainer.classList.add('active');
+                progressBar.style.width = '0%';
+                progressText.textContent = text;
+            } else {
+                progressContainer.classList.remove('active');
+            }
+        }
+
+        function updateProgress(percent) {
+            progressBar.style.width = percent + '%';
+        }
+
+        function showResult(success, message) {
+            result.className = 'result ' + (success ? 'success' : 'error');
+            result.textContent = message;
+        }
+
+        encryptBtn.addEventListener('click', async () => {
+            if (!selectedFile || !passwordInput.value) return;
+
+            showProgress(true, 'Encriptando archivo...');
+            result.style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('password', passwordInput.value);
+
+                const response = await fetch(`${API_URL}/encrypt`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Error al encriptar');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = selectedFile.name + '.enc';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                showProgress(false);
+                showResult(true, 'Archivo encriptado exitosamente. La descarga comenzará automáticamente.');
+            } catch (error) {
+                showProgress(false);
+                showResult(false, 'Error: ' + error.message);
+            }
+        });
+
+        decryptBtn.addEventListener('click', async () => {
+            if (!selectedFile || !passwordInput.value) return;
+
+            showProgress(true, 'Desencriptando archivo...');
+            result.style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('password', passwordInput.value);
+
+                const response = await fetch(`${API_URL}/decrypt`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Contraseña incorrecta o archivo corrupto');
+                }
+
+                const blob = await response.blob();
+                let filename = selectedFile.name;
+                if (filename.endsWith('.enc')) {
+                    filename = filename.slice(0, -4);
+                } else {
+                    filename = 'decrypted_' + filename;
+                }
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                showProgress(false);
+                showResult(true, 'Archivo desencriptado exitosamente. La descarga comenzará automáticamente.');
+            } catch (error) {
+                showProgress(false);
+                showResult(false, 'Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
