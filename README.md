@@ -2,6 +2,8 @@
 
 Aplicación web para encriptar y desencriptar archivos utilizando estándares criptográficos de nivel militar.
 
+![Logo](https://img.shields.io/badge/Encriptación-XChaCha20--Poly1305-00d9ff)
+
 ## Características de Seguridad
 
 | Capa | Tecnología | Detalles |
@@ -10,6 +12,14 @@ Aplicación web para encriptar y desencriptar archivos utilizando estándares cr
 | **Derivación de clave** | PBKDF2 | 10000 iteraciones, SHA-256 |
 | **Compresión** | Zstandard | Nivel 6 |
 | **Autenticación** | Integrada | Tag de 16 bytes (Poly1305) |
+| **CORS** | Headers personalizados | Compatible con despliegues externos |
+
+## Características Visuales
+
+- **Logo SVG**: Escudo con candado representando encriptación militar
+- **Favicon**: Icono en la pestaña del navegador
+- **Footer**: Marca "GUARNIERI NETWORK"
+- **Diseño responsivo**: Compatible con dispositivos móviles
 
 ## Estructura del Proyecto
 
@@ -17,16 +27,18 @@ Aplicación web para encriptar y desencriptar archivos utilizando estándares cr
 encrypt_app/
 ├── backend/
 │   ├── main.py              # API FastAPI (local)
+│   ├── main_render.py       # Flask para Render
 │   ├── main_firebase.py     # Firebase Functions
 │   ├── crypto.py            # Módulo de criptografía
 │   ├── requirements.txt     # Dependencias Python
-│   ├── firebase.json        # Config Firebase
-│   └── deploy.sh            # Script de deploy (Linux/Mac)
+│   ├── render.yaml          # Config Render
+│   └── firebase.json        # Config Firebase
 ├── frontend/
-│   ├── index.html           # Interfaz web
+│   ├── index.html           # Interfaz web (con logo y favicon)
 │   ├── netlify.toml         # Config Netlify
 │   └── _redirects           # Redirecciones
 ├── deploy.bat               # Script de deploy (Windows)
+├── deploy.sh                # Script de deploy (Linux/Mac)
 └── README.md
 ```
 
@@ -42,7 +54,7 @@ Accede a: `http://localhost:8080`
 
 ---
 
-## Despliegue en la Nube
+## Despliegue en la Nube (Versión Actual)
 
 ### Estructura Recomendada
 
@@ -54,75 +66,46 @@ Accede a: `http://localhost:8080`
 │         │                                               │
 │         ▼                                               │
 ├─────────────────────────────────────────────────────────┤
-│  Firebase Cloud Functions (Backend Python)              │
-│  https://us-central1-TU_PROYECTO.cloudfunctions.net    │
+│  Render (Backend Python - Gratis)                      │
+│  https://tu-servicio.onrender.com                       │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Paso 1: Firebase (Backend)
+### Paso 1: Render (Backend)
 
-1. **Instala Firebase CLI:**
-   ```bash
-   npm install -g firebase-tools
-   ```
+1. Ve a [render.com](https://render.com) y crea una cuenta
 
-2. **Inicia sesión:**
-   ```bash
-   firebase login
-   ```
+2. Crea un nuevo **Web Service**:
+   - Conecta tu repositorio de GitHub
+   - Configura:
+     - **Name**: `encriptador-backend`
+     - **Region**: Oregon
+     - **Root Directory**: `backend`
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Start Command**: `python main_render.py`
 
-3. **Crea un proyecto** en [console.firebase.google.com](https://console.firebase.google.com)
-
-4. **Edita `.firebaserc`** y cambia `TU_PROYECTO_FIREBASE` por tu ID de proyecto:
-   ```json
-   {
-     "projects": {
-       "default": "mi-proyecto-encriptador"
-     }
-   }
-   ```
-
-5. **Inicializa funciones:**
-   ```bash
-   cd backend
-   firebase init functions
-   ```
-   - Selecciona Python 3.12
-   - Cuando pregunte por archivos existentes, selecciona Yes para sobrescribir
-
-6. **Despliega:**
-   ```bash
-   firebase deploy --only functions
-   ```
-
-7. **Copia la URL** de tus funciones (algo como `https://us-central1-mi-proyecto.cloudfunctions.net`)
+3. Despliega y copia la URL (ej: `https://tu-servicio.onrender.com`)
 
 ### Paso 2: Netlify (Frontend)
 
-1. **Edita el frontend** para apuntar a tu Firebase:
+1. Edita `frontend/index.html` y configura tu URL de Render:
    ```javascript
-   // En frontend/index.html, línea ~353
-   const API_URL = 'https://us-central1-MI_PROYECTO.cloudfunctions.net';
+   const API_URL = 'https://tu-servicio.onrender.com';
    ```
-   Cambia `MI_PROYECTO` por tu ID de proyecto de Firebase.
 
-2. **Sube a Netlify:**
+2. Sube la carpeta `frontend/` a Netlify:
    - Ve a [netlify.com](https://netlify.com)
    - Arrastra la carpeta `frontend/` o conecta tu repositorio
-   - Netlify asignará una URL como `tu-app.netlify.app`
-
-### O: Deploy Automático (Scripts)
-
-```bash
-# Windows
-deploy.bat
-
-# Linux/Mac
-chmod +x deploy.sh
-./deploy.sh
-```
 
 ---
+
+## Formato del Archivo Encriptado
+
+```
+[24 bytes: Nonce][16 bytes: Tag][Datos comprimidos y encriptados]
+```
+
+Extensión: `.enc`
 
 ## Notas de Seguridad
 
@@ -130,16 +113,34 @@ chmod +x deploy.sh
 - Si la contraseña es incorrecta, la desencriptación fallará
 - Los archivos encriptados solo pueden ser abiertos con la contraseña correcta
 - La clave se deriva usando PBKDF2 con 10000 iteraciones
+- Soporte completo para CORS en despliegues remotos
 
 ## Solución de Problemas
 
 ### Error de CORS
-Si el frontend no puede comunicarse con Firebase:
+Si el frontend no puede comunicarse con el backend:
 1. Verifica que la URL de la API sea correcta en `index.html`
-2. Asegúrate de que Firebase permita conexiones desde tu dominio de Netlify
+2. Asegúrate de que el backend tenga headers CORS configurados
 
-### Error al desplegar funciones
-Asegúrate de tener Python 3.12 configurado en `firebase.json`
+### Error al desplegar en Render
+- Verifica que el `Root Directory` esté configurado como `backend`
+- Asegúrate de que `requirements.txt` tenga todas las dependencias incluyendo `flask` y `flask-cors`
 
 ### El archivo no se descarga
 Verifica que el navegador permita descargas automáticas desde dominios externos
+
+---
+
+## Tecnologías Utilizadas
+
+- **Backend**: Python, Flask, PyNaCl, Zstandard
+- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+- **Hosting**: Render (backend), Netlify (frontend)
+
+## Licencia
+
+MIT License
+
+---
+
+**Desarrollado por GUARNIERI NETWORK**
