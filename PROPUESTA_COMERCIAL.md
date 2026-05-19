@@ -13,6 +13,10 @@
 </p>
 
 <p align="center">
+  <strong>ENCRIPTADOR DE GRADO MILITAR</strong>
+</p>
+
+<p align="center">
   <strong>Desarrollado por GUARNIERI NETWORK</strong>
 </p>
 
@@ -67,33 +71,24 @@ En un mundo donde la información sensible está constantemente expuesta a amena
 | Algoritmo | XChaCha20-Poly1305 | AES-256 |
 | Compresión | Incluida (Zstandard) | No incluye |
 | Instalación | No requiere | Required |
-| Costo | Accesible | Alto |
+| Costo | 100% Gratis | Alto |
 | Uso | Navegador web | Software local |
 
 ---
 
 # 3. MODELO DE NEGOCIO
 
-## Planes de Servicio
+## Modelo de Distribución
 
-### PLAN BÁSICO - Gratis
-- Encriptación básica
-- Archivos hasta 50 MB
-- Interfaz web completa
-- Ideal para uso personal
+### Versión Gratuita (Actual)
+Aplicación completamente gratuita para todos los usuarios. Acceso completo a todas las funcionalidades de encriptación de grado militar sin costo alguno.
 
-### PLAN PROFESIONAL - $4.99/mes
-- Archivos hasta 500 MB
-- Prioridad de procesamiento
-- Soporte técnico por email
-- Ideal para profesionales y pequeñas empresas
-
-### PLAN EMPRESARIAL - $14.99/mes
-- Archivos ilimitados
-- Soporte prioritario 24/7
-- API para integración
-- Licenciasmulti-usuario
-- Ideal para empresas
+### Modelo de Ingresos Futuros
+Posibilidad de monetización mediante:
+- Publicidad contextual en la aplicación
+- Donaciones voluntarias de usuarios
+- Versión premium con características adicionales
+- Servicios de personalización para empresas
 
 ## Garantía de Seguridad
 

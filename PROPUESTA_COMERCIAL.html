@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Propuesta Comercial - Encriptador de Grado Militar</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Cover Page */
+        .cover {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .cover h1 {
+            font-size: 42pt;
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+        
+        .cover h2 {
+            font-size: 28pt;
+            color: #00ff88;
+            font-weight: normal;
+        }
+        
+        .cover .subtitle {
+            font-size: 18pt;
+            margin: 40px 0;
+        }
+        
+        .cover .brand {
+            font-size: 24pt;
+            font-weight: bold;
+            margin-top: 60px;
+        }
+        
+        .cover .year {
+            margin-top: 30px;
+            opacity: 0.7;
+        }
+        
+        /* Content Pages */
+        .page {
+            page-break-after: always;
+            padding: 40px 0;
+        }
+        
+        .page:last-child {
+            page-break-after: avoid;
+        }
+        
+        h1.section {
+            font-size: 24pt;
+            color: #1a1a2e;
+            border-bottom: 3px solid #00d9ff;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2.subsection {
+            font-size: 16pt;
+            color: #00d9ff;
+            margin: 25px 0 15px 0;
+        }
+        
+        p {
+            text-align: justify;
+            margin-bottom: 12px;
+        }
+        
+        ul {
+            margin: 10px 0 20px 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        strong {
+            color: #1a1a2e;
+        }
+        
+        /* Feature Cards */
+        .feature {
+            background: #f8f9fa;
+            border-left: 4px solid #00d9ff;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .feature h3 {
+            color: #1a1a2e;
+            font-size: 13pt;
+            margin-bottom: 8px;
+        }
+        
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: #1a1a2e;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* Pricing Cards */
+        .pricing {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .plan {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .plan-free {
+            background: #e0e0e0;
+        }
+        
+        .plan-pro {
+            background: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
+            color: #1a1a2e;
+        }
+        
+        .plan-enterprise {
+            background: linear-gradient(135deg, #00ff88 0%, #00d9ff 100%);
+            color: #1a1a2e;
+        }
+        
+        .plan h3 {
+            font-size: 14pt;
+            margin-bottom: 10px;
+        }
+        
+        .plan .price {
+            font-size: 18pt;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .plan ul {
+            text-align: left;
+            font-size: 10pt;
+            margin: 10px 0 0 0;
+        }
+        
+        /* Tech specs */
+        .tech-table {
+            margin: 20px 0;
+        }
+        
+        .tech-table .row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+        }
+        
+        .tech-table .label {
+            font-weight: bold;
+            width: 150px;
+            color: #1a1a2e;
+        }
+        
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta h2 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .cta .contact {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                max-width: none;
+                padding: 0;
+            }
+            
+            .cover {
+                min-height: calc(100vh - 4cm);
+            }
+            
+            .page {
+                padding: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <img src="logo.svg" alt="Logo" style="width: 100px; margin-bottom: 30px;">
+    <h1>ENCRIPTADOR</h1>
+    <h2>DE GRADO MILITAR</h2>
+    
+    <p class="subtitle">Propuesta Comercial</p>
+    
+    <p class="brand">Desarrollado por GUARNIERI NETWORK</p>
+    
+    <p class="year">2026</p>
+</div>
+
+<!-- PAGE 1: RESUMEN EJECUTIVO -->
+<div class="page">
+    <h1 class="section">1. Resumen Ejecutivo</h1>
+    
+    <p>En un mundo donde la información sensible está constantemente expuesta a amenazas cibernéticas, la protección de datos personales y empresariales se ha convertido en una necesidad crítica. Cada día, miles de archivos confidenciales son comprometidos por falta de herramientas accesibles y efectivas de encriptación.</p>
+    
+    <h2 class="subsection">El Problema</h2>
+    <p>Las soluciones de encriptación existentes en el mercado son demasiado complejas para el usuario común, requieren instalaciones complicadas, o tienen costos prohibitivos. Las alternativas gratuitas suelen comprometer la seguridad o carecen de funcionalidades esenciales.</p>
+    
+    <h2 class="subsection">Nuestra Solución</h2>
+    <p>El Encriptador de Grado Militar es una aplicación web que proporciona protección de nivel militar de forma accesible, intuitiva y económica. Con solo arrastrar un archivo e ingresar una contraseña, cualquier usuario puede proteger sus datos con la misma tecnología utilizada por instituciones gubernamentales y fuerzas militares.</p>
+    
+    <h2 class="subsection">Propuesta de Valor</h2>
+    <p>Seguridad de grado militar <strong>100% gratuita</strong> para todos, sin instalaciones, sin conocimientos técnicos previos, y completamente accesible.</p>
+</div>
+
+<!-- PAGE 2: NUESTRA SOLUCIÓN -->
+<div class="page">
+    <h1 class="section">2. Nuestra Solución</h1>
+    
+    <h2 class="subsection">Características Principales</h2>
+    
+    <div class="feature">
+        <h3>Interfaz Intuitiva</h3>
+        <p>Sistema de arrastrar y soltar (drag & drop), diseño moderno y responsivo, funciona en cualquier navegador web, sin necesidad de instalar software.</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Encriptación de Grado Militar</h3>
+        <p>Algoritmo XChaCha20-Poly1305 (256 bits), clave derivada con PBKDF2 (10,000 iteraciones), nonce de 192 bits para máxima seguridad, autenticación integrada (Poly1305).</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Compresión Integrada</h3>
+        <p>Tecnología Zstandard nivel 6, reduce el tamaño de los archivos antes de encriptar, proceso transparente para el usuario.</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Formato Universal</h3>
+        <p>Extensión de archivo: .enc, compatible con cualquier tipo de archivo, portabilidad total.</p>
+    </div>
+    
+    <h2 class="subsection">Comparativa</h2>
+    <table>
+        <tr>
+            <th>Característica</th>
+            <th>Encriptador Militar</th>
+            <th>Competidores</th>
+        </tr>
+        <tr>
+            <td>Algoritmo</td>
+            <td style="color: #00d9ff; font-weight: bold;">XChaCha20-Poly1305</td>
+            <td>AES-256</td>
+        </tr>
+        <tr>
+            <td>Compresión</td>
+            <td style="color: #00d9ff; font-weight: bold;">Incluida (Zstandard)</td>
+            <td>No incluye</td>
+        </tr>
+        <tr>
+            <td>Instalación</td>
+            <td style="color: #00d9ff; font-weight: bold;">No requiere</td>
+            <td>Requerida</td>
+        </tr>
+        <tr>
+            <td>Costo</td>
+            <td style="color: #00d9ff; font-weight: bold;">Accesible</td>
+            <td>Alto</td>
+        </tr>
+        <tr>
+            <td>Uso</td>
+            <td style="color: #00d9ff; font-weight: bold;">Navegador web</td>
+            <td>Software local</td>
+        </tr>
+    </table>
+</div>
+
+<!-- PAGE 3: MODELO DE NEGOCIO -->
+<div class="page">
+    <h1 class="section">3. Modelo de Negocio</h1>
+    
+    <h2 class="subsection">Modelo de Distribución</h2>
+    
+    <div class="feature">
+        <h3>Versión Gratuita (Actual)</h3>
+        <p>Aplicación completamente gratuita para todos los usuarios. Acceso completo a todas las funcionalidades de encriptación de grado militar sin costo alguno.</p>
+    </div>
+    
+    <div class="feature">
+        <h3>Modelo de Ingresos Futuros</h3>
+        <p>Posibilidad de monetización mediante:</p>
+        <ul>
+            <li>Publicidad contextual en la aplicación</li>
+            <li>Donaciones voluntarias de usuarios</li>
+            <li>Versión premium con características adicionales</li>
+            <li>Servicios de personalización para empresas</li>
+        </ul>
+    </div>
+    
+    <h2 class="subsection">Características Técnicas</h2>
+    
+    <div class="tech-table">
+        <div class="row">
+            <span class="label">Frontend:</span>
+            <span>HTML5, CSS3, JavaScript (Vanilla)</span>
+        </div>
+        <div class="row">
+            <span class="label">Backend:</span>
+            <span>Python (Flask)</span>
+        </div>
+        <div class="row">
+            <span class="label">Encriptación:</span>
+            <span>XChaCha20-Poly1305 (PyNaCl)</span>
+        </div>
+        <div class="row">
+            <span class="label">Compresión:</span>
+            <span>Zstandard nivel 6</span>
+        </div>
+        <div class="row">
+            <span class="label">Derivación de clave:</span>
+            <span>PBKDF2-SHA256 (10,000 iteraciones)</span>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 4: CONCLUSIÓN -->
+<div class="page">
+    <h1 class="section">4. Conclusión</h1>
+    
+    <p>El Encriptador de Grado Militar representa una oportunidad única en el mercado de seguridad de archivos. Mientras que los competidores ofrecen soluciones complejas y costosas, nuestra propuesta combina:</p>
+    
+    <ul>
+        <li><strong>Tecnología más moderna</strong> (XChaCha20-Poly1305 vs AES-256)</li>
+        <li><strong>Compresión integrada</strong> (ahorro de espacio)</li>
+        <li><strong>Totalmente gratuito</strong> (sin costo para el usuario)</li>
+        <li><strong>Accesibilidad</strong> (interfaz web sin instalación)</li>
+    </ul>
+    
+    <div class="cta">
+        <h2>¿Interesado en proteger sus archivos?</h2>
+        <p>Contáctenos para una demostración personalizada</p>
+        <p class="contact">GUARNIERI NETWORK</p>
+    </div>
+    
+    <p style="text-align: center; color: #999; font-size: 10pt; margin-top: 30px;">
+        Este documento es confidencial y está destinado únicamente al destinatario indicado.
+    </p>
+</div>
+
+</body>
+</html>
