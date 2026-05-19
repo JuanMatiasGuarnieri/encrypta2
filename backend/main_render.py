@@ -1,9 +1,23 @@
 import os
 import tempfile
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, make_response
 import crypto
 
 app = Flask(__name__)
+
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+
+@app.route('/encrypt', methods=['OPTIONS'])
+@app.route('/decrypt', methods=['OPTIONS'])
+def handle_options():
+    return make_response('', 204)
 
 
 @app.route('/health', methods=['GET'])
