@@ -2,6 +2,10 @@
 
 Aplicación web para encriptar y desencriptar archivos utilizando estándares criptográficos de nivel militar.
 
+<p align="center">
+  <img src="frontend/logo.svg" alt="Logo Encriptador" width="100">
+</p>
+
 ![Logo](https://img.shields.io/badge/Encriptación-XChaCha20--Poly1305-00d9ff)
 
 ## Características de Seguridad
@@ -34,7 +38,9 @@ encrypt_app/
 │   ├── render.yaml          # Config Render
 │   └── firebase.json        # Config Firebase
 ├── frontend/
-│   ├── index.html           # Interfaz web (con logo y favicon)
+│   ├── index.html           # Interfaz web
+│   ├── logo.svg              # Logo de la aplicación
+│   ├── favicon.svg           # Icono de pestaña del navegador
 │   ├── netlify.toml         # Config Netlify
 │   └── _redirects           # Redirecciones
 ├── deploy.bat               # Script de deploy (Windows)
